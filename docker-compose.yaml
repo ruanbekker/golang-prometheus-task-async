@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  myapp:
+    container_name: myapp
+    restart: unless-stopped
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    name: appnet
