@@ -10,6 +10,38 @@ services:
     networks:
       - appnet
 
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.26.0
+    restart: unless-stopped
+    volumes:
+      - ./configs/prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - appnet
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:${GRAFANA_VERSION:-11.0.0}
+    restart: unless-stopped
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ./configs/grafana/provisioning/dashboards.yaml:/etc/grafana/provisioning/dashboards/provisioning-dashboards.yaml:ro
+      - ./configs/grafana/provisioning/datasources.yaml:/etc/grafana/provisioning/datasources/provisioning-datasources.yaml:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    networks:
+      - appnet
+
+volumes:
+  grafana-data: {}
+
 networks:
   appnet:
     name: appnet
