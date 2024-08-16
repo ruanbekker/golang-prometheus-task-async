@@ -38,6 +38,10 @@ Go application that simulates CPU and memory-intensive tasks and exposes prometh
    - **Prometheus:** http://localhost:9090
    - **Grafana:** http://localhost:3000
 
+4. **Public Docker Image:**
+
+   A [public docker image](https://hub.docker.com/r/ruanbekker/golang-prometheus-task-async) of the application is published at `ruanbekker/golang-prometheus-task-async:latest`.
+
 ### API Endpoints
 
 - **`GET /`**: Returns the hostname of the running container.
